@@ -2,6 +2,7 @@ clear all
 r = 10;
 p = 1000;
 gamma = 4;
+amp = 1;
 n = p/gamma;
 A = 25*(1+sqrt(gamma))*(1+sqrt(gamma));
 
@@ -34,10 +35,10 @@ eigenv = eig(Sw);
 bp = (1+sqrt(gamma))*(1+sqrt(gamma));
 bn = (1-sqrt(gamma))*(1-sqrt(gamma));
 t = bn-1:0.2:bp-1;
+if gamma>1
+    amp = gamma;
+end
 histogram(real(eigenv),0:0.2:8,'Normalization','pdf');
 hold on;
-g = fplot(@(t) sqrt((bp-(t+1)).*((t+1)-bn))/(2*pi*gamma*(t+1))); % multiply gamma if gamma>1
-g.Color = 'r';
-g.LineWidth = 2;
-g.XRange = [0 10];
+fplot(@(t) amp*sqrt((bp-(t+1)).*((t+1)-bn))/(2*pi*gamma*(t+1)),[0 8],'Color','r'); % multiply gamma if gamma>1
 hold off;
